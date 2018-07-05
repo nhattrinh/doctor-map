@@ -34,7 +34,7 @@ class SearchBar extends Component {
     render() {
         return(
             <div style={{ backgroundColor:'light grey', padding:25, paddingTop:10 }}>
-                <h5>Find Clinic Location by Doctor Name</h5>
+                <h5>Find Location by Physician's Name</h5>
                 <br /><br />
                 <form>
                     <label htmlFor='firstname' data-error='Please enter a first name'>First Name*</label>

@@ -3,7 +3,7 @@ const initialState = {
     firstName: '',
     middleName: '',
     lastName: '',
-    doctorsArray: [],
+    doctors: [],
     inProgress: false,
     error: ''
 };
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
         case NOT_FOUND:
             return { ...state, error: 'User was not found!'};
         case FOUND:
-            return { ...state, doctorsArray: action.payload };
+            return { ...state, doctors: action.payload };
         case START_SEARCH: 
             return { ...state, inProgress: true };
         case STOP_SEARCH:

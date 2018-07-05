@@ -12,7 +12,7 @@ import { SearchBar } from './components/SearchView';
 import { MapContainer } from './components/MapView';
 
 // config files
-import { MAPS_API_KEY, FIREBASE_CONFIG } from './config';
+import { FIREBASE_CONFIG } from './config';
 
 import './App.css';
 
