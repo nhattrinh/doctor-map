@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 import { Col, Row } from 'react-bootstrap';
 
 import firebase from 'firebase';
@@ -29,10 +29,10 @@ class App extends Component {
 
   render() {
     return (
-      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+      <Provider store={createStore(reducers, applyMiddleware(thunk))}>
         <Row>
-          <Col s={12} m={4}><SearchBar /></Col>
-          <Col s={12} m={8}><MapContainer /></Col>
+          <Col style={{minWidth: '20vw'}}m={1}><SearchBar /></Col>
+          <Col m={11}><MapContainer /></Col>
         </Row>
       </Provider>
     );

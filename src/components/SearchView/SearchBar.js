@@ -14,7 +14,7 @@ class SearchBar extends Component {
     }
 
     handleSubmit(e) {
-        if (this.state.firstName || this.state.lastName || this.state.middleName) {
+        if (this.state.firstName && this.state.lastName) {
             e.preventDefault();
             this.props.submit(this.state.firstName, this.state.middleName, this.state.lastName);
         }
@@ -35,16 +35,15 @@ class SearchBar extends Component {
         return(
             <div className='container' style={{ backgroundColor: 'light grey' }}>
                 <h4>Search for Doctors by Name</h4>
-                <hr />
                 <form>
-                    <label for='firstname' data-error='Please enter a first name'>First Name*</label>
-                    <input id='firstname' required className='form-control' type='text' value={this.state.firstName} placeholder="John" onChange={e => {this.props.firstNameChanged(e.target.value)}}/>
+                    <label htmlFor='firstname' data-error='Please enter a first name'>First Name*</label>
+                    <input id='firstname' required='' className='form-control' type='text' value={this.state.firstName} placeholder="John" onChange={e => {this.props.firstNameChanged(e.target.value)}}/>
                     <br />
                     <label>Middle Name</label>
-                    <input className='form-control' type='text' value={this.state.middleName} placeholder="M." onChange={e => {this.props.middleNameChanged(e.target.value)}}/>
+                    <input className='form-control' type='text' value={this.state.middleName} placeholder="P." onChange={e => {this.props.middleNameChanged(e.target.value)}}/>
                     <br />
-                    <label for='lastname' data-error='Please enter a last name'>Last Name*</label>
-                    <input id='lastname' required className='form-control' type='text' value={this.state.lastName} placeholder="Smith" onChange={e => {this.props.lastNameChanged(e.target.value)}}/>
+                    <label htmlFor='lastname' data-error='Please enter a last name'>Last Name*</label>
+                    <input id='lastname' required='' className='form-control' type='text' value={this.state.lastName} placeholder="Smith" onChange={e => {this.props.lastNameChanged(e.target.value)}}/>
                     <span style={{ color: 'red', fontSize: 10 }}>Fields with *(asterisks) are required</span>
                     <br />
                     <input className='btn btn-primary' type='submit' onClick={this.handleSubmit.bind(this)} />

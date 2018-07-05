@@ -41,12 +41,14 @@ export const lastNameChanged = (text) => {
 
 // RECOMMENDED TO MAKE FIRST NAME AND LAST NAME REQUIRED, NOT MIDDLE NAME
 // IF NOT REQUIRED THEN DO FILTER FOR FIRST NAME THEN MIDDLE THEN LAST GIVEN THAT EACH FIELD IS POPULATED
-export const submit = ({ firstName, middleName, lastName }) => {
-    return dispatch => {
+export const submit = (firstName, middleName, lastName) => {
+    return (dispatch) => {
         var ref = firebase.database().ref('doctor-map-fd64c');
-        ref.orderByChild('Physician_First_Name').equalTo(firstName).on('value', (snapshot) => {
+        ref.orderByChild('Physician_First_Name').equalTo(firstName).once('value', (snapshot) => {
+            // check for snapshot.val() with snapshot.exists()
             var snapshotKeys = Object.keys(snapshot);
-
+            console.log(snapshotKeys);
+            console.log('snapshot keys ^');
             if (snapshotKeys.length === 1) {
                 dispatch({
                     type: FOUND,
@@ -59,7 +61,7 @@ export const submit = ({ firstName, middleName, lastName }) => {
             else if (!snapshotKeys.length) {
                 dispatch({
                     type: NOT_FOUND,
-                    payload: null
+                    payload: ''
                 });
             }
             else {
@@ -87,6 +89,7 @@ export const submit = ({ firstName, middleName, lastName }) => {
                         snapshotKeys
                     }
                 });
+                console.log(filteredArray);
             }
         });
     }
