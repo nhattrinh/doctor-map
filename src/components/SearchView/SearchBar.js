@@ -33,27 +33,30 @@ class SearchBar extends Component {
 
     render() {
         return(
-            <div className='container' style={{ backgroundColor: 'light grey' }}>
-                <h4>Search for Doctors by Name</h4>
+            <div style={{ backgroundColor:'light grey', padding:25, paddingTop:10 }}>
+                <h5>Find Clinic Location by Doctor Name</h5>
+                <br /><br />
                 <form>
                     <label htmlFor='firstname' data-error='Please enter a first name'>First Name*</label>
-                    <input id='firstname' required='' className='form-control' type='text' value={this.state.firstName} placeholder="John" onChange={e => {this.props.firstNameChanged(e.target.value)}}/>
+                    <input id='firstname' required className='form-control' type='text' value={this.state.firstName} placeholder="John" onChange={e => {this.props.firstNameChanged(e.target.value)}}/>
                     <br />
                     <label>Middle Name</label>
                     <input className='form-control' type='text' value={this.state.middleName} placeholder="P." onChange={e => {this.props.middleNameChanged(e.target.value)}}/>
                     <br />
                     <label htmlFor='lastname' data-error='Please enter a last name'>Last Name*</label>
-                    <input id='lastname' required='' className='form-control' type='text' value={this.state.lastName} placeholder="Smith" onChange={e => {this.props.lastNameChanged(e.target.value)}}/>
-                    <span style={{ color: 'red', fontSize: 10 }}>Fields with *(asterisks) are required</span>
-                    <br />
-                    <input className='btn btn-primary' type='submit' onClick={this.handleSubmit.bind(this)} />
+                    <input id='lastname' required className='form-control' type='text' value={this.state.lastName} placeholder="Smith" onChange={e => {this.props.lastNameChanged(e.target.value)}}/>
+                    <div className='right'>
+                        <span style={{ color: 'red', fontSize: 10 }}>Fields with *(asterisk) are required</span>
+                        <br />
+                        <input className='btn btn-primary right' type='submit' onClick={this.handleSubmit.bind(this)} />
+                    </div>
                 </form>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         firstName: state.search.firstName,
         middleName: state.search.middleName,
