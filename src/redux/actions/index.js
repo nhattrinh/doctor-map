@@ -1,5 +1,8 @@
-import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND } from './types';
+import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH } from './types';
 import firebase from 'firebase';
+import axios from 'axios';
+
+import { MAPS_API_KEY } from '../../config';
 
 export const firstNameChanged = (text) => {
     return({
@@ -22,27 +25,9 @@ export const lastNameChanged = (text) => {
     });
 }
 
-
-/* possible routes:
-    - make all fields required
-        - easy to implement but not easy for middle name
-    - do not make all fields required
-        - find by each field
-            - only in the fields that are populated
-        - if one field matches then move on to the other
-            - only conduct search using that field when that field has a length !== 0
-        - steps:
-            - find by Physician_First_Name
-            - find by Physician_Middle_Name
-            - find by Physician_Last_Name
-            - if all of those fields satisfy (given that do not find if the field is empty)
-                then dispatch a FOUND action with the payload of being the obj that passed all the filtering done by ES6 find function
-*/
-
-// RECOMMENDED TO MAKE FIRST NAME AND LAST NAME REQUIRED, NOT MIDDLE NAME
-// IF NOT REQUIRED THEN DO FILTER FOR FIRST NAME THEN MIDDLE THEN LAST GIVEN THAT EACH FIELD IS POPULATED
 export const submit = (firstName, middleName, lastName) => {
     return (dispatch) => {
+        dispatch({ type: START_SEARCH });
         var ref = firebase.database().ref();
         ref.on('value', snapshot => {
             if (snapshot.exists()){
@@ -60,12 +45,29 @@ export const submit = (firstName, middleName, lastName) => {
                     filteredArray = filteredArray.filter(obj => String(obj.Physician_Middle_Name).toLowerCase() === String(middleName).toLowerCase());
                 }
 
-                if (filteredArray.length) {
-                    dispatch({
-                        type: FOUND,
-                        payload: filteredArray
+                if (filteredArray.length){
+                    var promises = [];
+
+                    filteredArray.map(v => {
+                        promises.push(axios.get(String('https://maps.googleapis.com/maps/api/geocode/json?address=' + v.Recipient_Primary_Business_Street_Address_Line1 + ',+' + v.Recipient_City + ',+' + v.Recipient_State + ',+' + v.Recipient_Zip_Code + '&key=' + MAPS_API_KEY).replace(/ /g, '+')))
                     });
+    
+                    axios.all(promises)
+                        .then(axios.spread((...args) => {
+                            args.map((v,i) => {
+                                filteredArray[i].lat = v.data.results[0].geometry.location.lat;
+                                filteredArray[i].lng = v.data.results[0].geometry.location.lng;
+                            });
+                        }))
+                        .then(() => {
+                            dispatch({ type: STOP_SEARCH });
+                            dispatch({
+                                type: FOUND,
+                                payload: filteredArray
+                            });
+                        });
                 }
+
                 else {
                     dispatch({
                         type: NOT_FOUND,

@@ -4,7 +4,7 @@ const initialState = {
     middleName: '',
     lastName: '',
     doctors: [],
-    inProgress: false,
+    searching: false,
     error: ''
 };
 
@@ -17,13 +17,13 @@ export default (state = initialState, action) => {
         case LASTNAME_CHANGED:
             return { ...state, lastName: action.payload };
         case NOT_FOUND:
-            return { ...state, error: 'User was not found!'};
+            return { ...state, error: 'Physician not found'};
         case FOUND:
             return { ...state, doctors: action.payload };
         case START_SEARCH: 
-            return { ...state, inProgress: true };
+            return { ...state, searching: true };
         case STOP_SEARCH:
-            return { ...state, inProgress: false };
+            return { ...state, searching: false };
         default:
             return state;
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Loader from 'react-loader-spinner';
 
 import { firstNameChanged, middleNameChanged, lastNameChanged, submit } from '../../redux/actions';
 
@@ -9,7 +10,8 @@ class SearchBar extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            middleName: ''
+            middleName: '',
+            loading: false
         };
     }
 
@@ -25,16 +27,18 @@ class SearchBar extends Component {
             return {
                 firstName: nextProps.firstName,
                 middleName: nextProps.middleName,
-                lastName: nextProps.lastName
+                lastName: nextProps.lastName,
+                loading: nextProps.loading
             };
         }
         return null;
     }
 
     render() {
+        console.log(this.state.loading);
         return(
             <div style={{ backgroundColor:'light grey', padding:25, paddingTop:10 }}>
-                <h5>Find Location by Physician's Name</h5>
+                <h5>Find Physician's Location by Name</h5>
                 <br /><br />
                 <form>
                     <label htmlFor='firstname' data-error='Please enter a first name'>First Name*</label>
@@ -48,7 +52,16 @@ class SearchBar extends Component {
                     <div className='right'>
                         <span style={{ color: 'red', fontSize: 10 }}>Fields with *(asterisk) are required</span>
                         <br />
-                        <input className='btn btn-primary right' type='submit' onClick={this.handleSubmit.bind(this)} />
+                        {
+                            this.state.loading ? 
+                                <Loader 
+                                    type="Rings"
+                                    color="#26a69a"
+                                    height="50"	
+                                    width="50"
+                                /> : 
+                                <input className='btn btn-primary right' type='submit' onClick={this.handleSubmit.bind(this)} />
+                        }
                     </div>
                 </form>
             </div>
@@ -60,7 +73,8 @@ const mapStateToProps = (state) => {
     return {
         firstName: state.search.firstName,
         middleName: state.search.middleName,
-        lastName: state.search.lastName
+        lastName: state.search.lastName,
+        loading: state.search.searching
     };
 }
 

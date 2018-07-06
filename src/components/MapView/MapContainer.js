@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { GoogleApiWrapper, Map, InfoWindow, Marker } from 'google-maps-react';
 import { connect } from 'react-redux';
 
-import Geocode from 'react-geocode';
-
 import { MAPS_API_KEY } from '../../config';
 
 export class MapContainer extends Component {
@@ -13,31 +11,20 @@ export class MapContainer extends Component {
             doctors: [],
             activeMarker: {},
             infoWindowShowing: false,
-            activePlace: {}
+            activePlace: {},
+            error: ''
         };
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.doctors !== prevState.doctors) {
-            var doctors = nextProps.doctors;
-            doctors.map((v,i) => {
-                Geocode.fromAddress(v.Recipient_Primary_Business_Street_Address_Line1 + ', ' + v.Recipient_City + ', ' + v.Recipient_State + ', ' + v.Recipient_Zip_Code)
-                    .then(res => {
-                        const { lat, lng } = res.results[0].geometry.location;
-                        doctors[i].lat = lat;
-                        doctors[i].lng = lng;
-                    },
-                    err => {
-                        console.log(err);
-                    });
-            });
-
             return ({
                 ...prevState,
-                doctors
+                doctors: nextProps.doctors,
+                error: nextProps.error
             });
         }
-        return null;
+        return prevState;
     }
 
     onMarkerClick(activePlace, activeMarker) {
@@ -49,20 +36,20 @@ export class MapContainer extends Component {
     }
 
     onMapClick() {
-        if (this.state.infoWindowShowing) { 
-            this.setState({
-                infoWindowShowing: false,
-                activeMarker: null,
-                activePlace: null
-            });
-        }
+        this.setState({
+            infoWindowShowing: false,
+            activeMarker: null,
+            activePlace: null
+        });
     }
 
     render() {
+        if (this.state.error)
+            alert(this.state.error);
         return(
             <Map 
                 google={this.props.google} 
-                zoom={5}
+                zoom={4}
                 onClick={this.onMapClick.bind(this)}
                 initialCenter={{
                     lat: 40.1164,
@@ -70,16 +57,18 @@ export class MapContainer extends Component {
                 }}
             >
                 { 
-                    this.state.doctors.map((v,i) => {
+                    this.state.doctors.map(v => {
                         return(
                             <Marker 
                                 onClick={this.onMarkerClick.bind(this)}
                                 key={v.Physician_Profile_ID}
-                                name={`${v.Physician_First_Name} ${v.Physician_Last_Name}'s Office`} 
+                                name={`${v.Physician_First_Name} ${v.Physician_Last_Name}`} 
                                 specialty={v.Physician_Specialty}
                                 type={v.Physician_Primary_Type}
-                                lat={v.lat}
-                                lng={v.lng}
+                                position={{ 
+                                    lat: v.lat,
+                                    lng: v.lng
+                                }}
                                 visible
                             />
                     )})
@@ -90,13 +79,15 @@ export class MapContainer extends Component {
                     marker={this.state.activeMarker}
                     visible={this.state.infoWindowShowing}
                 >
+                    { this.state.activeMarker ? 
                     <div>
                         <h5>{this.state.activeMarker.name}</h5>
                         <hr />
-                        Physician's Specialty: {this.state.activeMarker.specialty}
+                        <b>Physician's Specialty:</b> {this.state.activeMarker.specialty}
                         <br />
-                        Physician's Type: {this.state.activeMarker.type}
-                    </div>
+                        <b>Physician's Type:</b> {this.state.activeMarker.type}
+                    </div> : <div></div>
+                    }
                 </InfoWindow>
             </Map>
         )
@@ -105,7 +96,8 @@ export class MapContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        doctors: state.search.doctors
+        doctors: state.search.doctors,
+        error: state.search.error
     };
 }
 
