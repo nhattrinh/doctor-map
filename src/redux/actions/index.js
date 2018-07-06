@@ -1,8 +1,15 @@
-import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH } from './types';
+import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH, ERROR_CLEAR } from './types';
 import firebase from 'firebase';
 import axios from 'axios';
 
 import { MAPS_API_KEY } from '../../config';
+
+export const clearError = () => {
+    return({
+        type: ERROR_CLEAR,
+        payload: ''
+    });
+}
 
 export const firstNameChanged = (text) => {
     return({
@@ -32,6 +39,10 @@ export const submit = (firstName, middleName, lastName) => {
         ref.on('value', snapshot => {
             if (snapshot.exists()){
                 var snapshotKeys = snapshot.val();
+                dispatch({
+                    type: ERROR_CLEAR,
+                    payload: ''
+                });
 
                 // important to make the parts of the name of doctors from database and query into lowercase, because the data is not always perfect
                 // get all the doctors from the database
@@ -60,7 +71,6 @@ export const submit = (firstName, middleName, lastName) => {
                             });
                         }))
                         .then(() => {
-                            dispatch({ type: STOP_SEARCH });
                             dispatch({
                                 type: FOUND,
                                 payload: filteredArray
@@ -75,6 +85,13 @@ export const submit = (firstName, middleName, lastName) => {
                     });
                 }
             }
+            else {
+                dispatch({
+                    type: NOT_FOUND,
+                    payload: null
+                });
+            }
         });
+        dispatch({ type: STOP_SEARCH });
     }
 }

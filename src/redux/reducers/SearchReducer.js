@@ -1,4 +1,4 @@
-import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, STOP_SEARCH, START_SEARCH } from '../actions/types';
+import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, STOP_SEARCH, START_SEARCH, ERROR_CLEAR } from '../actions/types';
 const initialState = {
     firstName: '',
     middleName: '',
@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         case LASTNAME_CHANGED:
             return { ...state, lastName: action.payload };
         case NOT_FOUND:
+            console.log('dispatching error');
             return { ...state, error: 'Physician not found'};
         case FOUND:
             return { ...state, doctors: action.payload };
@@ -24,6 +25,8 @@ export default (state = initialState, action) => {
             return { ...state, searching: true };
         case STOP_SEARCH:
             return { ...state, searching: false };
+        case ERROR_CLEAR:
+            return { ...state, error: action.payload };
         default:
             return state;
     }

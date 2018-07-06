@@ -23,19 +23,21 @@ class SearchBar extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.firstName !== nextProps.firstName || prevState.middleName !== nextProps.middleName || prevState.lastName !== nextProps.lastName) {
+        if (prevState.firstName !== nextProps.firstName || prevState.middleName !== nextProps.middleName || prevState.lastName !== nextProps.lastName || nextProps.error !== prevState.error ) {
             return {
                 firstName: nextProps.firstName,
                 middleName: nextProps.middleName,
                 lastName: nextProps.lastName,
-                loading: nextProps.loading
+                loading: nextProps.loading,
+                error: nextProps.error
             };
         }
         return null;
     }
 
     render() {
-        console.log(this.state.loading);
+        if (this.state.error)
+            alert(this.state.error);
         return(
             <div style={{ backgroundColor:'light grey', padding:25, paddingTop:10 }}>
                 <h5>Find Physician's Location by Name</h5>
@@ -60,7 +62,7 @@ class SearchBar extends Component {
                                     height="50"	
                                     width="50"
                                 /> : 
-                                <input className='btn btn-primary right' type='submit' onClick={this.handleSubmit.bind(this)} />
+                                <input className= 'btn right' type='submit' onClick={this.handleSubmit.bind(this)} />
                         }
                     </div>
                 </form>
@@ -74,7 +76,8 @@ const mapStateToProps = (state) => {
         firstName: state.search.firstName,
         middleName: state.search.middleName,
         lastName: state.search.lastName,
-        loading: state.search.searching
+        loading: state.search.searching,
+        error: state.search.error
     };
 }
 

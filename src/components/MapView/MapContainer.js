@@ -20,8 +20,7 @@ export class MapContainer extends Component {
         if (nextProps.doctors !== prevState.doctors) {
             return ({
                 ...prevState,
-                doctors: nextProps.doctors,
-                error: nextProps.error
+                doctors: nextProps.doctors
             });
         }
         return prevState;
@@ -44,8 +43,6 @@ export class MapContainer extends Component {
     }
 
     render() {
-        if (this.state.error)
-            alert(this.state.error);
         return(
             <Map 
                 google={this.props.google} 
@@ -96,8 +93,7 @@ export class MapContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        doctors: state.search.doctors,
-        error: state.search.error
+        doctors: state.search.doctors
     };
 }
 

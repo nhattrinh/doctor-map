@@ -6,3 +6,4 @@ export const FOUND = 'found';
 export const NOT_FOUND = 'not_found';
 export const START_SEARCH = 'start_search';
 export const STOP_SEARCH = 'stop_search';
+export const ERROR_CLEAR = 'error_clear';
