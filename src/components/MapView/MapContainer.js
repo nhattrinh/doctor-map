@@ -52,7 +52,7 @@ export class MapContainer extends Component {
         this.setState({ notifiedSuccess: true });
         return toast.success(message, {
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true
@@ -62,7 +62,7 @@ export class MapContainer extends Component {
     notifyError(message) {
         return toast.error(message, {
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true
