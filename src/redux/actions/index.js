@@ -53,13 +53,13 @@ export const submit = (firstName, middleName, lastName) => {
                 // important to make the parts of the name of doctors from database and query into lowercase, because the data is not always perfect
                 // get all the doctors from the database
                 // filter through a variable called filteredArray to check if the last and first name (in lowercase) equals to the first and last name in lowercase from the user form submission
-                var filteredArray = snapshotKeys.filter(obj => String(obj.Physician_First_Name).toLowerCase() === String(firstName).toLowerCase());
-                filteredArray = filteredArray.filter(obj => String(obj.Physician_Last_Name).toLowerCase() === String(lastName).toLowerCase());
+                var filteredArray = snapshotKeys.filter(obj => String(obj.Physician_First_Name).toLowerCase() === String(firstName).replace(/\s/g,'').toLowerCase());
+                filteredArray = filteredArray.filter(obj => String(obj.Physician_Last_Name).toLowerCase() === String(lastName).replace(/\s/g,'').toLowerCase());
                 
                 // lastly check if the middle name are the same
                 // this check is isolated because the app does not make middle name input compulsory
                 if (filteredArray.length && middleName.length) {
-                    filteredArray = filteredArray.filter(obj => String(obj.Physician_Middle_Name).toLowerCase() === String(middleName).toLowerCase());
+                    filteredArray = filteredArray.filter(obj => String(obj.Physician_Middle_Name).toLowerCase() === String(middleName).replace(/\s/g,'').toLowerCase());
                 }
 
                 if (filteredArray.length){
