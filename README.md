@@ -1,5 +1,5 @@
 # doctor-map
-[![Build Status](https://travis-ci.org/nt2013/doctor-map.svg?branch=master)](https://travis-ci.org/nt2013/doctor-map) [![Dependencies Status](https://david-dm.org/nt2013/doctor-map.svg)](https://david-dm.org/nt2013/doctor-map.svg)
+[![Build Status](https://travis-ci.com/nt2013/doctor-map.svg?branch=master)](https://travis-ci.com/nt2013/doctor-map) [![Dependencies Status](https://david-dm.org/nt2013/doctor-map.svg)](https://david-dm.org/nt2013/doctor-map.svg)
 
 
 ReactJS web app with Redux & Firebase to show locations of physicians based on the user's search query
