@@ -29,4 +29,4 @@ Live at https://physician-map.herokuapp.com/
 * [Redux](https://github.com/reduxjs/redux) - State Container
 * [Redux Thunk](https://github.com/reduxjs/redux-thunk) - Middleware for Redux
 * [Firebase](https://firebase.google.com/docs/database/) - Real Time Database
-
+* [Google Maps API](https://cloud.google.com/maps-platform/) - API used for geocoding & map view
