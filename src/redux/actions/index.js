@@ -68,16 +68,16 @@ export const submit = (firstName, middleName, lastName) => {
                 if (filteredArray.length){
                     var promises = [];
 
-                    filteredArray.map(v => {
+                    filteredArray.forEach(v => {
                         promises.push(axios.get(String('https://maps.googleapis.com/maps/api/geocode/json?address=' + v.Recipient_Primary_Business_Street_Address_Line1 + ',+' + v.Recipient_City + ',+' + v.Recipient_State + ',+' + v.Recipient_Zip_Code + '&key=' + MAPS_API_KEY).replace(/ /g, '+')))
                     });
     
                     axios.all(promises)
                         .then(axios.spread((...args) => {
-                            args.map((v,i) => {
+                            args.forEach((v,i) => {
                                 filteredArray[i].lat = v.data.results[0].geometry.location.lat;
                                 filteredArray[i].lng = v.data.results[0].geometry.location.lng;
-                            });
+                        });
                         }))
                         .then(() => {
                             dispatch({ type: STOP_SEARCH });

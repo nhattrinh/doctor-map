@@ -25,6 +25,7 @@ class SearchBar extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.firstName !== nextProps.firstName || prevState.middleName !== nextProps.middleName || prevState.lastName !== nextProps.lastName || nextProps.error !== prevState.error || nextProps.loading !== prevState.loading ) {
+            console.log(nextProps.loading);
             return {
                 firstName: nextProps.firstName,
                 middleName: nextProps.middleName,

@@ -17,7 +17,7 @@ import { FIREBASE_CONFIG } from './config';
 import './App.css';
 
 class App extends Component {
-  
+
   componentDidMount() {
     firebase.initializeApp(FIREBASE_CONFIG);
   }
@@ -26,8 +26,12 @@ class App extends Component {
     return (
       <Provider store={createStore(reducers, applyMiddleware(thunk))}>
         <Row>
-          <Col style={{minWidth: '20vw'}}m={1}><SearchBar /></Col>
-          <Col m={11}><MapContainer /></Col>
+          <Col style={{minWidth: '20vw'}}m={1}>
+            <SearchBar />
+          </Col>
+          <Col m={11}>
+            <MapContainer />
+          </Col>
         </Row>
       </Provider>
     );
