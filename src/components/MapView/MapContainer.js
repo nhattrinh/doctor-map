@@ -3,6 +3,7 @@ import { GoogleApiWrapper, Map, InfoWindow, Marker } from 'google-maps-react';
 import { connect } from 'react-redux';
 
 import { MAPS_API_KEY } from '../../config';
+import { clearError } from '../../redux/actions';
 
 export class MapContainer extends Component {
     constructor(props) {
@@ -17,10 +18,11 @@ export class MapContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.doctors !== prevState.doctors) {
+        if (nextProps.doctors !== prevState.doctors || nextProps.error !== prevState.error) {
             return ({
                 ...prevState,
-                doctors: nextProps.doctors
+                doctors: nextProps.doctors,
+                error: nextProps.error
             });
         }
         return prevState;
@@ -43,6 +45,11 @@ export class MapContainer extends Component {
     }
 
     render() {
+        if (this.state.error){
+            alert(this.state.error);
+            this.props.clearError();
+        }
+
         return(
             <Map 
                 google={this.props.google} 
@@ -93,10 +100,11 @@ export class MapContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        doctors: state.search.doctors
+        doctors: state.search.doctors,
+        error: state.search.error
     };
 }
 
 export default GoogleApiWrapper({
     apiKey: MAPS_API_KEY
-})(connect(mapStateToProps)(MapContainer))
+})(connect(mapStateToProps, { clearError })(MapContainer))

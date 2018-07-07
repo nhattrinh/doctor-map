@@ -1,4 +1,4 @@
-import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH, ERROR_CLEAR } from './types';
+import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH, CLEAR_ERROR, CLEAR_DOCTORS } from './types';
 import firebase from 'firebase';
 import axios from 'axios';
 
@@ -6,8 +6,15 @@ import { MAPS_API_KEY } from '../../config';
 
 export const clearError = () => {
     return({
-        type: ERROR_CLEAR,
+        type: CLEAR_ERROR,
         payload: ''
+    });
+}
+
+export const clearDoctors = () => {
+    return({
+        type: CLEAR_DOCTORS,
+        payload: []
     });
 }
 
@@ -34,13 +41,15 @@ export const lastNameChanged = (text) => {
 
 export const submit = (firstName, middleName, lastName) => {
     return (dispatch) => {
-        dispatch({ type: START_SEARCH });
+        dispatch({ 
+            type: START_SEARCH
+        });
         var ref = firebase.database().ref();
         ref.on('value', snapshot => {
             if (snapshot.exists()){
                 var snapshotKeys = snapshot.val();
                 dispatch({
-                    type: ERROR_CLEAR,
+                    type: CLEAR_ERROR,
                     payload: ''
                 });
 
@@ -71,6 +80,7 @@ export const submit = (firstName, middleName, lastName) => {
                             });
                         }))
                         .then(() => {
+                            dispatch({ type: STOP_SEARCH });
                             dispatch({
                                 type: FOUND,
                                 payload: filteredArray
@@ -79,6 +89,7 @@ export const submit = (firstName, middleName, lastName) => {
                 }
 
                 else {
+                    dispatch({ type: STOP_SEARCH });
                     dispatch({
                         type: NOT_FOUND,
                         payload: null
@@ -86,6 +97,7 @@ export const submit = (firstName, middleName, lastName) => {
                 }
             }
             else {
+                dispatch({ type: STOP_SEARCH });
                 dispatch({
                     type: NOT_FOUND,
                     payload: null

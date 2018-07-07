@@ -17,12 +17,7 @@ import { FIREBASE_CONFIG } from './config';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
+  
   componentDidMount() {
     firebase.initializeApp(FIREBASE_CONFIG);
   }
