@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from 'react-loader-spinner';
 
 import { firstNameChanged, middleNameChanged, lastNameChanged, submit, clearDoctors } from '../../redux/actions';
 
@@ -10,8 +9,7 @@ class SearchBar extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            middleName: '',
-            loading: false
+            middleName: ''
         };
     }
 
@@ -24,13 +22,11 @@ class SearchBar extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.firstName !== nextProps.firstName || prevState.middleName !== nextProps.middleName || prevState.lastName !== nextProps.lastName || nextProps.error !== prevState.error || nextProps.loading !== prevState.loading ) {
-            console.log(nextProps.loading);
+        if (prevState.firstName !== nextProps.firstName || prevState.middleName !== nextProps.middleName || prevState.lastName !== nextProps.lastName || nextProps.error !== prevState.error ) {
             return {
                 firstName: nextProps.firstName,
                 middleName: nextProps.middleName,
                 lastName: nextProps.lastName,
-                loading: nextProps.loading,
                 error: nextProps.error
             };
         }
@@ -51,19 +47,10 @@ class SearchBar extends Component {
                     <br />
                     <label htmlFor='lastname' data-error='Please enter a last name'>Last Name*</label>
                     <input id='lastname' required className='form-control' type='text' value={this.state.lastName} onChange={e => {this.props.lastNameChanged(e.target.value)}}/>
-                    <div className='right'>
+                    <div className='right' style={{position: 'relative'}}>
                         <span style={{ color: 'red', fontSize: 10 }}>Fields with *(asterisk) are required</span>
                         <br />
-                        {
-                            this.state.loading ? 
-                                <Loader 
-                                    type="Rings"
-                                    color="#26a69a"
-                                    height="50"	
-                                    width="50"
-                                /> : 
-                                <input className= 'btn right' type='submit' onClick={this.handleSubmit.bind(this)} />
-                        }
+                        <input className= 'btn right' type='submit' onClick={this.handleSubmit.bind(this)} />
                     </div>
                 </form>
             </div>
@@ -75,8 +62,7 @@ const mapStateToProps = (state) => {
     return {
         firstName: state.search.firstName,
         middleName: state.search.middleName,
-        lastName: state.search.lastName,
-        loading: state.search.searching
+        lastName: state.search.lastName
     };
 }
 

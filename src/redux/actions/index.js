@@ -1,4 +1,4 @@
-import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, START_SEARCH, STOP_SEARCH, CLEAR_ERROR, CLEAR_DOCTORS } from './types';
+import { FIRSTNAME_CHANGED, MIDDLENAME_CHANGED, LASTNAME_CHANGED, FOUND, NOT_FOUND, CLEAR_ERROR, CLEAR_DOCTORS } from './types';
 import firebase from 'firebase';
 import axios from 'axios';
 
@@ -41,9 +41,6 @@ export const lastNameChanged = (text) => {
 
 export const submit = (firstName, middleName, lastName) => {
     return (dispatch) => {
-        dispatch({ 
-            type: START_SEARCH
-        });
         var ref = firebase.database().ref();
         ref.on('value', snapshot => {
             if (snapshot.exists()){
@@ -80,7 +77,6 @@ export const submit = (firstName, middleName, lastName) => {
                         });
                         }))
                         .then(() => {
-                            dispatch({ type: STOP_SEARCH });
                             dispatch({
                                 type: FOUND,
                                 payload: filteredArray
@@ -89,7 +85,6 @@ export const submit = (firstName, middleName, lastName) => {
                 }
 
                 else {
-                    dispatch({ type: STOP_SEARCH });
                     dispatch({
                         type: NOT_FOUND,
                         payload: null
@@ -97,13 +92,11 @@ export const submit = (firstName, middleName, lastName) => {
                 }
             }
             else {
-                dispatch({ type: STOP_SEARCH });
                 dispatch({
                     type: NOT_FOUND,
                     payload: null
                 });
             }
         });
-        dispatch({ type: STOP_SEARCH });
     }
 }

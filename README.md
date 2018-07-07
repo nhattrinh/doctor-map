@@ -20,12 +20,13 @@ Data retrieved from cms.gov
 
 ## Deployment
 
-Automatically deployed to Heroku
+Automatically deployed to Heroku<br/>
 Live at https://physician-map.herokuapp.com/
 
 ## Built With
 
 * [React](https://github.com/facebook/react) - The view library used
-* [Redux](https://github.com/reduxjs/redux) - State Management
+* [Redux](https://github.com/reduxjs/redux) - State Container
+* [Redux Thunk](https://github.com/reduxjs/redux-thunk) - Middleware for Redux
 * [Firebase](https://firebase.google.com/docs/database/) - Real Time Database
 
