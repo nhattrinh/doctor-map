@@ -1,2 +1,31 @@
 # doctor-map
-A web app that allows users to search up doctors and pin their location on a map. Data retrieved from cms.gov.
+[![Build Status](https://travis-ci.org/nt2013/flickr-photos.svg?branch=master)](https://travis-ci.org/nt2013/flickr-photos) [![Dependencies Status](https://david-dm.org/nt2013/doctor-map.svg)](https://david-dm.org/nt2013/doctor-map.svg)
+
+
+ReactJS web app with Redux & Firebase to show locations of physicians based on the user's search query
+
+Data retrieved from cms.gov
+
+### Prerequisites
+
+- Node.js
+
+## Getting Started
+
+- git clone this repository onto the location of your choice
+- use your OS's command line interface to cd into the repository
+- run the npm install or yarn install command
+- run the npm start or yarn start command
+- go to the address localhost:3000 on your browser and you will see the app
+
+## Deployment
+
+Automatically deployed to Heroku
+Live at https://physician-map.herokuapp.com/
+
+## Built With
+
+* [React](https://github.com/facebook/react) - The view library used
+* [Redux](https://github.com/reduxjs/redux) - State Management
+* [Firebase](https://firebase.google.com/docs/database/) - Real Time Database
+
