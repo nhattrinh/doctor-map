@@ -16,7 +16,8 @@ Data retrieved from cms.gov
 - use your OS's command line interface to cd into the repository
 - run the npm install or yarn install command
 - run the npm start or yarn start command
-- go to the address localhost:3000 on your browser and you will see the app
+- go to the address localhost:3000
+- example: try searching for "christopher proctor"
 
 ## Deployment
 
